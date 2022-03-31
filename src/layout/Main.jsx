@@ -12,17 +12,21 @@ export default class Main extends Component {
     };
 
     componentDidMount() {
-        fetch(`http://www.omdbapi.com/?apikey=${API_KEY}&s=no game no life`)
+        fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=no game no life`)
             .then((response) => response.json())
             .then((data) =>
                 this.setState({movies: data.Search, loading: false})
-            );
+            )
+            .catch((err) => {
+                console.error(err);
+                this.setState({loading: false});
+            });
     }
 
     search = (searchQuery, type = 'all') => {
         this.setState({loading: false});
         fetch(
-            `http://www.omdbapi.com/?apikey=${API_KEY}&s=${searchQuery}${
+            `https://www.omdbapi.com/?apikey=${API_KEY}&s=${searchQuery}${
                 type !== 'all' ? `&type=${type}` : ''
             }`
         )
